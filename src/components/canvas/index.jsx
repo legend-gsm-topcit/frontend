@@ -16,6 +16,7 @@ export default function Canvas({ subject, room }) {
     img.src = canvaslist[pointer];
     img.onload = e => {
       ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+      imgRef.current.src = lee();
     }
   }
   function redo() {
@@ -26,9 +27,9 @@ export default function Canvas({ subject, room }) {
       img.src = canvaslist[pointer];
       img.onload = e => {
         ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+        imgRef.current.src = lee();
       }
     }
-    imgRef.current.src = lee();
   }
   window.addEventListener('keydown', e => {
     keystack.push(e.key);
@@ -38,7 +39,6 @@ export default function Canvas({ subject, room }) {
       || (keystack[keystack.length - 3] === "Control" && keystack[keystack.length - 2] === 'Shift' && keystack[keystack.length - 1] === 'Z')) {
       redo();
     }
-    imgRef.current.src = lee();
   })
   useEffect(e => {
     canvasRef.current.width = 700;
