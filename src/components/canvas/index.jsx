@@ -8,8 +8,21 @@ export default function Canvas({ subject, room }) {
   let imgRef = useRef(null);
   let ctx;
   let painting = false;
+  let keystack = [];
+  function undo() {
+    pointer--;
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    const img = new Image();
+    img.src = canvaslist[pointer];
+    img.onload = e => {
+      ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+    }
+  }
   window.addEventListener('keydown', e => {
-    console.log(e)
+    keystack.push(e.key);
+    if (keystack[keystack.length - 2] === "Control" && keystack[keystack.length - 1] === 'z') {
+      undo();
+    }
   })
   useEffect(e => {
     canvasRef.current.width = 700;
@@ -21,16 +34,6 @@ export default function Canvas({ subject, room }) {
   }, []);
   function mousedown(e) {
     painting = true;
-  }
-  function undo() {
-    pointer--;
-    console.log(pointer)
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    const img = new Image();
-    img.src = canvaslist[pointer];
-    img.onload = e => {
-      ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
-    }
   }
 
   function lee() {
@@ -52,7 +55,6 @@ export default function Canvas({ subject, room }) {
     pointer++;
     canvaslist.splice(pointer, canvaslist.length);
     canvaslist.push(lee());
-    console.log(canvaslist, pointer);
   }
   function mouseMove(e) {
     ctx = canvasRef.current.getContext('2d');
