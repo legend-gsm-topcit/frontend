@@ -18,10 +18,23 @@ export default function Canvas({ subject, room }) {
       ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
     }
   }
+  function redo() {
+    pointer++;
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    const img = new Image();
+    img.src = canvaslist[pointer];
+    img.onload = e => {
+      ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+    }
+  }
   window.addEventListener('keydown', e => {
     keystack.push(e.key);
+    console.log(keystack)
     if (keystack[keystack.length - 2] === "Control" && keystack[keystack.length - 1] === 'z') {
       undo();
+    } else if ((keystack[keystack.length - 2] === "Control" && keystack[keystack.length - 1] === 'y')
+      || (keystack[keystack.length - 3] === "Control" && keystack[keystack.length - 2] === 'Shift' && keystack[keystack.length - 1] === 'Z')) {
+      redo();
     }
   })
   useEffect(e => {
@@ -84,7 +97,7 @@ export default function Canvas({ subject, room }) {
       <div className='color'>
         <div className='red' onClick={e => ctx.strokeStyle = "#FF0000"} />
       </div>
-      <button onClick={e => undo()}>undo</button>
+      <button onClick={e => undo()}>undo</button><button onClick={e => redo()}>redo</button>
     </div>
   </S.Canvas>;
 }
