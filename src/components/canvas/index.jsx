@@ -19,23 +19,26 @@ export default function Canvas({ subject, room }) {
     }
   }
   function redo() {
-    pointer++;
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    const img = new Image();
-    img.src = canvaslist[pointer];
-    img.onload = e => {
-      ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+    if (pointer + 1 < canvaslist.length) {
+      pointer++;
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      const img = new Image();
+      img.src = canvaslist[pointer];
+      img.onload = e => {
+        ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
+      }
     }
+    imgRef.current.src = lee();
   }
   window.addEventListener('keydown', e => {
     keystack.push(e.key);
-    console.log(keystack)
     if (keystack[keystack.length - 2] === "Control" && keystack[keystack.length - 1] === 'z') {
       undo();
     } else if ((keystack[keystack.length - 2] === "Control" && keystack[keystack.length - 1] === 'y')
       || (keystack[keystack.length - 3] === "Control" && keystack[keystack.length - 2] === 'Shift' && keystack[keystack.length - 1] === 'Z')) {
       redo();
     }
+    imgRef.current.src = lee();
   })
   useEffect(e => {
     canvasRef.current.width = 700;
@@ -81,7 +84,7 @@ export default function Canvas({ subject, room }) {
       ctx.stroke();
     }
     try {
-      // imgRef.current.src = lee();
+      imgRef.current.src = lee();
     } catch (e) {
       console.log(e)
     }
@@ -93,11 +96,11 @@ export default function Canvas({ subject, room }) {
       onMouseMove={e => mouseMove(e)}>
     </canvas>
     <div className='div'>
-      {/* <img ref={imgRef} alt='img' /> */}
       <div className='color'>
         <div className='red' onClick={e => ctx.strokeStyle = "#FF0000"} />
       </div>
       <button onClick={e => undo()}>undo</button><button onClick={e => redo()}>redo</button>
     </div>
+    <img ref={imgRef} alt='img' />
   </S.Canvas>;
 }
