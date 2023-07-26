@@ -25,7 +25,7 @@ export const Bucket = e =>
 export const TrashCan = e =>
   <svg width="60" height="50" viewBox="0 0 54 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0.474494 2.38954C0.228896 1.15271 1.17522 0 2.43619 0H51.5329C52.804 0 53.7526 1.17015 53.4897 2.41371L41.6497 58.4137C41.4542 59.3384 40.6381 60 39.6929 60H13.5562C12.6018 60 11.7804 59.3257 11.5945 58.3895L0.474494 2.38954Z" fill="#919191" />
-    <path d="M19 11V47" stroke="white" stroke-width="3" stroke-linecap="round" />
-    <path d="M27 11V46" stroke="white" stroke-width="3" stroke-linecap="round" />
-    <path d="M36 12V47" stroke="white" stroke-width="3" stroke-linecap="round" />
+    <path d="M19 11V47" stroke="white" strokeWidth="3" strokeLinecap="round" />
+    <path d="M27 11V46" stroke="white" strokeWidth="3" strokeLinecap="round" />
+    <path d="M36 12V47" stroke="white" strokeWidth="3" strokeLinecap="round" />
   </svg>;
