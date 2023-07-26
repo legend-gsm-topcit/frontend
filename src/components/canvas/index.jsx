@@ -124,7 +124,9 @@ export default function Canvas({ subject, room }) {
               <rect y="16.6265" width="43.3735" height="43.3735" rx="3" fill="#00CEFB" />
             </svg>
           </div>
-          <svg onClick={e => console.log(e)} width="60" height="50" viewBox="0 0 42 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg onClick={e => {
+            spanRef.current.innerText = 'Fill mode';
+          }} width="60" height="50" viewBox="0 0 42 62" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect y="24.1111" width="42" height="27.2222" fill="#919191" />
             <ellipse cx="21" cy="23.5278" rx="21" ry="10.3056" fill="white" />
             <ellipse cx="21" cy="51.5278" rx="21" ry="10.3056" fill="#919191" />
