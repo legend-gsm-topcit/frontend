@@ -10,7 +10,9 @@ export default function Setroom({ setPlaying, isHost }) {
     <div className='flex'>
       <div className='rounds'>
         <h1>라운드 수<br />{rounds}</h1>
-        <input readOnly={!isHost} type='range' min={3} max={50} value={rounds} onChange={e => setRounds(e.target.value)} />
+        {isHost && <input type='range' min={3} max={50} value={rounds} onChange={e => {
+          setRounds(e.target.value);
+        }} />}
       </div>
       <div className='difficulties'>
         <h1>제시어 난이도</h1>
@@ -42,7 +44,7 @@ export default function Setroom({ setPlaying, isHost }) {
     </button> : <button onClick={e => {
       setReady(e => !e);
     }}>
-      {ready ? '취소하기' : '하기하기'}
+      {ready ? '취소하기' : '준비하기'}
     </button>}
   </S.setroom>;
 }
