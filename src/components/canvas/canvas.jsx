@@ -8,7 +8,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
   let spanRef = useRef(null);
   let toolRef = useRef(null);
   let canvaslist = [];
-  let pointer = -1;
+  let pointer = 0;
   let ctx;
   let painting = false;
   let keystack = [];
@@ -26,19 +26,21 @@ export default function Canvas({ subject, room, whoDrawing }) {
     return a;
   }
   function undo() {
-    pointer--;
-    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    const img = new Image();
-    img.src = canvaslist[pointer];
-    img.onload = (e) => {
-      ctx.drawImage(
-        img,
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-    };
+    if (pointer >= 0) {
+      pointer--;
+      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      const img = new Image();
+      img.src = canvaslist[pointer];
+      img.onload = (e) => {
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
+        );
+      };
+    }
   }
   function redo() {
     if (pointer + 1 < canvaslist.length) {
@@ -87,8 +89,8 @@ export default function Canvas({ subject, room, whoDrawing }) {
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = "2.5";
     rangeRef.current.value = 2.5;
-    pointer = -1;
     canvaslist = [];
+    pointer = -1;
     if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
       toolRef.current.style.display = 'flex'
     } else {
