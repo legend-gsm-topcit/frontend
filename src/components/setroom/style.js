@@ -33,6 +33,14 @@ export const setroom = styled.div`
     input{
       width: 300px;
     }
+    button{
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
+      &+button{
+        margin-left: 20px;
+      }
+    }
   }
   button{
     width: 200px;

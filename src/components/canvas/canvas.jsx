@@ -1,12 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 import * as SVG from "../../assets/svgs";
+import Words from "../words/words";
 
 export default function Canvas({ subject, room, whoDrawing }) {
   let canvasRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
   let toolRef = useRef(null);
+  const [visible, setVisible] = useState(true);
+  const thelist = ['몽키', '노트북', '물병', '이어폰'];
   let canvaslist = [];
   let pointer = 0;
   let ctx;
@@ -135,6 +138,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
   }
   return (
     <S.Canvas>
+      <Words list={thelist} isvisible={visible} setVisible={setVisible} />
       <div className='subject'>
         제시어: {whoDrawing === localStorage.getItem('nickname') ? subject : replaceString(subject)}
       </div>
