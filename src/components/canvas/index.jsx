@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react';
 import * as S from './style';
 import * as SVG from '../../assets/svgs';
 
-export default function Canvas({ subject, room }) {
+export default function Canvas({ subject, img, whoDrawing }) {
   let canvasRef = useRef(null);
-  let imgRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
+  let toolRef = useRef(null);
   let canvaslist = [];
   let pointer = -1;
   let ctx;
@@ -19,7 +19,6 @@ export default function Canvas({ subject, room }) {
     img.src = canvaslist[pointer];
     img.onload = e => {
       ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
-      imgRef.current.src = lee();
     }
   }
   function redo() {
@@ -30,7 +29,6 @@ export default function Canvas({ subject, room }) {
       img.src = canvaslist[pointer];
       img.onload = e => {
         ctx.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height)
-        imgRef.current.src = lee();
       }
     }
   }
@@ -44,16 +42,27 @@ export default function Canvas({ subject, room }) {
     }
   })
   useEffect(e => {
+    if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
+      toolRef.current.style.display = 'flex'
+    } else {
+      toolRef.current.style.display = 'none';
+    }
+  }, [whoDrawing]);
+  useEffect(e => {
     canvasRef.current.width = 700;
-    canvasRef.current.height = 500;
+    canvasRef.current.height = 450;
     //eslint-disable-next-line
     ctx = canvasRef.current.getContext('2d');
     ctx.strokeStyle = '#000000';
     ctx.lineWidth = '2.5';
     rangeRef.current.value = 2.5;
+
+    localStorage.setItem('nickname', '홍길동')
   }, []);
   function mousedown(e) {
-    painting = true;
+    if (whoDrawing === localStorage.getItem('nickname')) { // 나 일 경우만
+      painting = true;
+    }
   }
 
   function lee() {
@@ -65,9 +74,13 @@ export default function Canvas({ subject, room }) {
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    //ia 를 소켓에다 보낼 것임.
+    //img 를 소켓에다 보낼 것임.
+    img = { ab: ab, mimeString: mimeString };
+    console.log(img)
+
     const bb = new Blob([ab], { "type": mimeString });
     const createdobject = window.URL.createObjectURL(bb);
+
     return createdobject;
   }
 
@@ -87,20 +100,18 @@ export default function Canvas({ subject, room }) {
     } else {
       ctx.lineTo(x, y);
       ctx.stroke();
-    }
-    try {
-      imgRef.current.src = lee();
-    } catch (e) {
-      console.log(e)
-    }
+    } lee();
   }
   return <S.Canvas>
+    <div className='subject'>
+      제시어: {whoDrawing === localStorage.getItem('nickname') && subject}
+    </div>
     <canvas ref={canvasRef}
       onMouseDown={e => mousedown(e)}
       onMouseUp={e => mouseup(e)}
       onMouseMove={e => mouseMove(e)}>
     </canvas>
-    <div className='div'>
+    <div className='div' ref={toolRef}>
       <div className='tools'>
         <div className='icons'>
           <span ref={spanRef}>brush mode</span>
@@ -123,13 +134,12 @@ export default function Canvas({ subject, room }) {
           </div>
           <div onClick={e => {
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-            imgRef.current.src = lee();
           }}>
             <SVG.TrashCan />
           </div>
         </div>
         <div className='slidebar'>
-          <input ref={rangeRef} type='range' min={2.5} max={30} onChange={e => {
+          <input ref={rangeRef} type='range' min={2.5} max={80} onChange={e => {
             ctx.lineWidth = e.target.value;
           }} />
         </div>
@@ -145,6 +155,5 @@ export default function Canvas({ subject, room }) {
         <div className='black' onClick={e => ctx.strokeStyle = "black"} />
         <div className='white' onClick={e => ctx.strokeStyle = "white"} />
       </div></div>
-    <img ref={imgRef} alt='img' />
   </S.Canvas >;
 }

@@ -4,8 +4,14 @@ export const Canvas = styled.div`
 text-align: center;
 width: 700px;
 margin: auto;
+  .subject{
+    background-color: #eeeeee;
+    border: 1px solid black;
+    border-bottom: none;
+  }
   canvas{
     border: 1px solid black;
+    border-top: none;
     background-color: #eeeeee;
   }
   .div{
