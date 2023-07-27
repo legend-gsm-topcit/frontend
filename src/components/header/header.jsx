@@ -1,0 +1,13 @@
+import logo from "../../assets/logo.png";
+import * as S from "./style";
+
+export default function Header() {
+  return (
+    <S.header>
+      <header>
+        <img alt="asdf" src={logo}></img>
+        <div>욱자형 님이 그리는 중이에요</div>
+      </header>
+    </S.header>
+  );
+}
