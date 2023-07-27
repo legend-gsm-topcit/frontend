@@ -1,11 +1,17 @@
 import { styled } from "styled-components";
 
 export const Canvas = styled.div`
+  .subject{
+    background-color: #eeeeee;
+    border: 1px solid black;
+    border-bottom: none;
+  }
   text-align: center;
   width: 1000px;
   margin-top: 30px;
   canvas {
     border: 1px solid black;
+    border-top: none;
     background-color: #eeeeee;
   }
 
