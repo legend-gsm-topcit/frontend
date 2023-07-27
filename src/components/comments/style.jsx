@@ -5,7 +5,7 @@ export const comment = styled.div`
   margin-top: 30px;
   margin-left: 10px;
   .comment-list {
-    height: 600px;
+    height: 620px;
     background-color: #fff;
     border: 1px solid #000;
     padding-left: 10px;

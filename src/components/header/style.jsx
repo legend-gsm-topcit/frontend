@@ -4,6 +4,7 @@ export const header = styled.div`
   height: 100px;
   width: 1800px;
 
+  
   header {
     display: flex;
     width: 100%;
@@ -18,8 +19,8 @@ export const header = styled.div`
       width: 400px;
     }
     div {
-      width: 1400p;
-      margin-left: 20%;
+      text-align: center;
+      width: 1400px;
     }
   }
 `;
