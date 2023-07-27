@@ -2,16 +2,29 @@ import { useEffect, useRef } from "react";
 import * as S from "./style";
 import * as SVG from "../../assets/svgs";
 
-export default function Canvas({ subject, room }) {
+export default function Canvas({ subject, room, whoDrawing }) {
   let canvasRef = useRef(null);
-  let imgRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
+  let toolRef = useRef(null);
   let canvaslist = [];
   let pointer = -1;
   let ctx;
   let painting = false;
   let keystack = [];
+
+  function replaceString(string) {
+    let a = '';
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === ' ') {
+        a += ' ';
+      }
+      else {
+        a += '[ ]';
+      }
+    }
+    return a;
+  }
   function undo() {
     pointer--;
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -25,7 +38,6 @@ export default function Canvas({ subject, room }) {
         canvasRef.current.width,
         canvasRef.current.height
       );
-      imgRef.current.src = lee();
     };
   }
   function redo() {
@@ -42,7 +54,6 @@ export default function Canvas({ subject, room }) {
           canvasRef.current.width,
           canvasRef.current.height
         );
-        imgRef.current.src = lee();
       };
     }
   }
@@ -73,8 +84,17 @@ export default function Canvas({ subject, room }) {
     rangeRef.current.value = 2.5;
   }, []);
   function mousedown(e) {
-    painting = true;
+    if (whoDrawing === localStorage.getItem('nickname')) {
+      painting = true;
+    }
   }
+  useEffect(e => {
+    if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
+      toolRef.current.style.display = 'flex'
+    } else {
+      toolRef.current.style.display = 'none';
+    }
+  }, [whoDrawing]);
 
   function lee() {
     const le = canvasRef.current.toDataURL("image/png");
@@ -85,8 +105,8 @@ export default function Canvas({ subject, room }) {
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    //ia 를 소켓에다 보낼 것임.
     const bb = new Blob([ab], { type: mimeString });
+    // JSON.stringify(bb); 소켓으로
     const createdobject = window.URL.createObjectURL(bb);
     return createdobject;
   }
@@ -108,21 +128,19 @@ export default function Canvas({ subject, room }) {
       ctx.lineTo(x, y);
       ctx.stroke();
     }
-    try {
-      imgRef.current.src = lee();
-    } catch (e) {
-      console.log(e);
-    }
   }
   return (
     <S.Canvas>
+      <div className='subject'>
+        제시어: {whoDrawing === localStorage.getItem('nickname') ? subject : replaceString(subject)}
+      </div>
       <canvas
         ref={canvasRef}
         onMouseDown={(e) => mousedown(e)}
         onMouseUp={(e) => mouseup(e)}
         onMouseMove={(e) => mouseMove(e)}></canvas>
 
-      <div className="div">
+      <div className="div" ref={toolRef}>
         <div className="tools">
           <div className="icons">
             <div
@@ -141,13 +159,10 @@ export default function Canvas({ subject, room }) {
             </div>
             <div
               onClick={(e) => {
-                ctx.clearRect(
-                  0,
-                  0,
-                  canvasRef.current.width,
-                  canvasRef.current.height
-                );
-                imgRef.current.src = lee();
+                ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+                pointer++;
+                canvaslist.splice(pointer, canvaslist.length);
+                canvaslist.push(lee());
               }}>
               <SVG.TrashCan />
             </div>
@@ -157,7 +172,7 @@ export default function Canvas({ subject, room }) {
               ref={rangeRef}
               type="range"
               min={2.5}
-              max={20}
+              max={30}
               onChange={(e) => {
                 ctx.lineWidth = e.target.value;
               }}
@@ -194,7 +209,6 @@ export default function Canvas({ subject, room }) {
           />
         </div>
       </div>
-      <img ref={imgRef} alt="img" />
     </S.Canvas>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function Comment(props) {
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
   }, []);
 
   const nickname = props.comment.nickname;
