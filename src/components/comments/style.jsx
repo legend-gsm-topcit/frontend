@@ -24,7 +24,7 @@ export const comment = styled.div`
     display: flex;
     flex-direction: column;
 
-    textarea {
+    input {
       font-family: "Pretendard-Regular";
       resize: none;
       border: none;

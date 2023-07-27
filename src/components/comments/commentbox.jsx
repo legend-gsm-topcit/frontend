@@ -14,7 +14,7 @@ export default function Commentbox() {
         setComments("");
       }}
       className="commentbox">
-      <textarea
+      <input
         placeholder="내용을 적어주세요."
         value={comments}
         onChange={onChange}
