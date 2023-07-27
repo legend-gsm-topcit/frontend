@@ -4,7 +4,7 @@ export default function commentlist() {
   const comment = {
     nickname: "saf",
     content:
-      "dsaflknasdfljasdlfknadsv'klnads'lknadsvlknsdavlknsdavnasdvlnsadlv'nasdlnvsd'anv",
+      "worldisyours 이거 진짜 명반인데 좀 들어보세요'klnads'lknadsvlknsdavlknsdavnasdvlnsadlv'nasdlnvsd'anv",
   };
   return (
     <div className="comment-list">
