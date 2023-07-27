@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as S from './style';
 import * as SVG from '../../assets/svgs';
 
-export default function Canvas({ subject, img, whoDrawing }) {
+export default function Canvas({ subject, stompClient, url, whoDrawing }) {
   let canvasRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
@@ -74,11 +74,8 @@ export default function Canvas({ subject, img, whoDrawing }) {
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    //img 를 소켓에다 보낼 것임.
-    img = { ab: ab, mimeString: mimeString };
-    console.log(img)
-
     const bb = new Blob([ab], { "type": mimeString });
+    //소켓 보내기
     const createdobject = window.URL.createObjectURL(bb);
 
     return createdobject;
