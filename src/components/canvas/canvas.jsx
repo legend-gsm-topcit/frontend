@@ -74,7 +74,12 @@ export default function Canvas({ subject, room, whoDrawing }) {
       redo();
     }
   });
-  useEffect((e) => {
+  function mousedown(e) {
+    if (whoDrawing === localStorage.getItem('nickname')) {
+      painting = true;
+    }
+  }
+  useEffect(e => {
     canvasRef.current.width = 1000;
     canvasRef.current.height = 600;
     //eslint-disable-next-line
@@ -82,13 +87,8 @@ export default function Canvas({ subject, room, whoDrawing }) {
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = "2.5";
     rangeRef.current.value = 2.5;
-  }, []);
-  function mousedown(e) {
-    if (whoDrawing === localStorage.getItem('nickname')) {
-      painting = true;
-    }
-  }
-  useEffect(e => {
+    pointer = -1;
+    canvaslist = [];
     if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
       toolRef.current.style.display = 'flex'
     } else {

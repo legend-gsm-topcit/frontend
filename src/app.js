@@ -16,6 +16,7 @@ export default function App() {
       <div className="main-Screen">
         <Header whodrawing={whoDrawing} />
         <PlayerList />
+        <button onClick={e => setWhoDrawing(e => e + '욱')}>+욱</button>
         {playing ? <Canvas whoDrawing={whoDrawing} subject={'네모바지 스폰지밥'} /> : isEntered ? <Setroom setPlaying={setPlaying} /> : <Setnickname setIsEntered={setIsEntered} />}
         <Commenttab />
       </div>
