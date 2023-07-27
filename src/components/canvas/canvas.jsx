@@ -89,7 +89,9 @@ export default function Canvas({ subject, room, whoDrawing }) {
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = "2.5";
     rangeRef.current.value = 2.5;
+    //eslint-disable-next-line
     canvaslist = [];
+    //eslint-disable-next-line
     pointer = -1;
     if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
       toolRef.current.style.display = 'flex'

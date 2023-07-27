@@ -8,7 +8,7 @@ export default function Setnickname({ setIsEntered, socket }) {
       e.preventDefault(); setIsEntered(e => {
         if (nickname !== '' && window.confirm(`${nickname}으로 하시겠습니까?`)) {
           localStorage.setItem('nickname', nickname);
-          //소켓으로 전송
+          //소켓으로 접속
           return true;
         }
       });
