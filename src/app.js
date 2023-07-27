@@ -19,7 +19,7 @@ export default function App() {
   return (
     <>
       <div className="main-Screen">
-        <Header whodrawing={whoDrawing} />
+        <Header whodrawing={whoDrawing} playing={playing} />
         <PlayerList />
         <button onClick={e => setWhoDrawing(e => e + '욱')}>+욱</button>
         <button onClick={e => setWhoDrawing(e => e.substring(1, e.length))}>-욱</button>
