@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  font-family: "Pretendard-Regular";
+  background-color: lightgray;
+}
+
+.main-Screen {
+  margin-left: 50%;
+  margin-top: 40px;
+  transform: translate(-50%, 0);
+  width: 1800px;
+  height: 900px;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
