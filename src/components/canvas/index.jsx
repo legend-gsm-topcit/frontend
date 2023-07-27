@@ -12,6 +12,18 @@ export default function Canvas({ subject, stompClient, url, whoDrawing }) {
   let ctx;
   let painting = false;
   let keystack = [];
+  function replaceString(string) {
+    let a = '';
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === ' ') {
+        a += ' ';
+      }
+      else {
+        a += '[ ]';
+      }
+    }
+    return a;
+  }
   function undo() {
     pointer--;
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -101,7 +113,7 @@ export default function Canvas({ subject, stompClient, url, whoDrawing }) {
   }
   return <S.Canvas>
     <div className='subject'>
-      제시어: {whoDrawing === localStorage.getItem('nickname') && subject}
+      제시어: {whoDrawing === localStorage.getItem('nickname') ? subject : replaceString(subject)}
     </div>
     <canvas ref={canvasRef}
       onMouseDown={e => mousedown(e)}
