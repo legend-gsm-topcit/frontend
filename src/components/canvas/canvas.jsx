@@ -166,6 +166,12 @@ export default function Canvas({ subject, room, whoDrawing }) {
               }}>
               <SVG.TrashCan />
             </div>
+            <div onClick={undo}>
+              <SVG.UndoIcon />
+            </div>
+            <div onClick={redo}>
+              <SVG.RedoIcon />
+            </div>
           </div>
           <div className="slidebar">
             <input
