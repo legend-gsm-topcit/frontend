@@ -13,4 +13,5 @@ export const comment = styled.div`
   font-size: 16px;
   padding-right: 10px;
   word-wrap: break-word;
+  margin-right: 30px;
 `;
