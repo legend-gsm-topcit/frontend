@@ -7,20 +7,18 @@ export default function playerlist() {
       <div className="playerlist">
         {
           <>
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
-            <Player />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
+            <Player nickname={'새마갤'} points={10} />
           </>
         }
       </div>

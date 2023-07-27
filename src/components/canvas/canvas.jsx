@@ -172,7 +172,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
               ref={rangeRef}
               type="range"
               min={2.5}
-              max={20}
+              max={30}
               onChange={(e) => {
                 ctx.lineWidth = e.target.value;
               }}
