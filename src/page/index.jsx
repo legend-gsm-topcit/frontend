@@ -19,6 +19,7 @@ export default function Root() {
   const [subject, setSubject] = useState([]);
   const [isHost, setHost] = useState(false);
   const [wordList, setWordList] = useState([]);
+  const [chatlist, setChatlist] = useState([]);
   const [nextone, setNextone] = useState();
 
   let StompClient = new StompJs.Client({
@@ -52,12 +53,11 @@ export default function Root() {
     });
     StompClient.subscribe(`/sub/room/${id}/keywordList`, message => {
       const m = JSON.parse(message.body);
-      console.log(m);
       setWordList(m);
     });
     StompClient.subscribe(`/sub/room/${id}/chat`, message => {
       const m = (message.body);
-      console.log(m);
+      setChatlist(a => [m, ...a]);
     });
     StompClient.subscribe(`/sub/room/${id}/round`, message => {
       console.log(message);
@@ -71,6 +71,6 @@ export default function Root() {
     <Header whodrawing={whoDrawing} playing={playing} />
     <PlayerList list={memberList} />
     {playing ? <Canvas whoDrawing={whoDrawing} StompClient={StompClient} setSubject={setSubject} wordList={wordList} subject={subject} id={id} /> : isEntered ? <Setroom setPlaying={setPlaying} StompClient={StompClient} isHost={isHost} id={id} setNextone={setNextone} /> : <Setnickname StompClient={StompClient} setIsEntered={setIsEntered} />}
-    <Commenttab StompClient={StompClient} id={id} />
+    <Commenttab StompClient={StompClient} id={id} chatlist={chatlist} />
   </div>
 }
