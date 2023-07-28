@@ -1,9 +1,10 @@
 import * as S from './style';
 
-export default function Words({ isvisible, setVisible, list }) {
-  return <>{<S.words>
+export default function Words({ isvisible, setVisible, list, setWord }) {
+  return <>{isvisible && <S.words>
     {list.map((i, n) => <div className='word' onClick={e => {
-      setVisible(false)
+
+      setVisible(false);
     }}>
       {i}
     </div>)}

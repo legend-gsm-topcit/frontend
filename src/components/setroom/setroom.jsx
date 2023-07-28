@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
 import * as S from './style';
-import * as StompJs from '@stomp/stompjs';
-const Url = '54.180.93.60';
 
-export default function Setroom({ setPlaying, isHost, StompClient, id, rou, dif, mem }) {
+export default function Setroom({ setPlaying, isHost, StompClient, id, setNextone }) {
   const [rounds, setRounds] = useState(3);
   const [difficulty, setDifficulty] = useState('EASY');
   const [numOfmember, setNumOfmember] = useState(3);
   const [init, setinit] = useState(true);
   useEffect(e => {
-    console.log(rounds, difficulty, numOfmember);
-    StompClient.activate();
+    // StompClient.activate();
     if (!init) {
       StompClient.publish({
         destination: `/pub/room/${id}/option/edit/${localStorage.getItem('nickname')}`, body: JSON.stringify({
@@ -21,19 +18,20 @@ export default function Setroom({ setPlaying, isHost, StompClient, id, rou, dif,
       });
     }
     return () => {
+      // StompClient.deactivate();
       setinit(false);
-      StompClient.deactivate();
     };
   }, [rounds, difficulty, numOfmember]);
   StompClient.onConnect = e => {
     StompClient.subscribe(`/sub/room/${id}/option`, message => {
       const options = JSON.parse(message.body);
+      console.log(options)
       setDifficulty(e => options.level);
       setRounds(e => options.maxRoundCount);
       setNumOfmember(e => options.maxMemberCount);
     });
   }
-  StompClient.activate();
+  // StompClient.activate();
   return <S.setroom>
     <h1>방 설정</h1>
     <div className='flex'>
@@ -65,7 +63,7 @@ export default function Setroom({ setPlaying, isHost, StompClient, id, rou, dif,
             if (isHost) {
               setDifficulty('EASY');
             }
-          }}>상</div>
+          }}>하</div>
           <div className={difficulty === 'NORMAL' ? 'active' : ''} onClick={e => {
             if (isHost) {
               setDifficulty('NORMAL');
@@ -75,13 +73,18 @@ export default function Setroom({ setPlaying, isHost, StompClient, id, rou, dif,
             if (isHost) {
               setDifficulty('HARD');
             }
-          }}>하</div>
+          }}>상</div>
         </div>
       </div>
     </div >
     {
       isHost ? <button onClick={e => {
         if (difficulty && window.confirm("이대로 진행하시겠습니까?")) {
+          // StompClient.activate();
+          StompClient.publish({
+            destination: `/pub/room/${id}/start`, body: localStorage.getItem('nickname')
+          });
+          // StompClient.deactivate();
           setPlaying(true);
         }
       }

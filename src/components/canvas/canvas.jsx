@@ -3,12 +3,12 @@ import * as S from "./style";
 import * as SVG from "../../assets/svgs";
 import Words from "../words/words";
 
-export default function Canvas({ subject, room, whoDrawing }) {
+export default function Canvas({ StompClient, setSubject, subject, whoDrawing, id }) {
   let canvasRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
   let toolRef = useRef(null);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const thelist = ['몽키', '노트북', '물병', '이어폰'];
   let canvaslist = [];
   let pointer = 0;
@@ -16,6 +16,26 @@ export default function Canvas({ subject, room, whoDrawing }) {
   let painting = false;
   let keystack = [];
 
+  // StompClient.activate();
+
+  StompClient.onConnect = e => {
+    StompClient.subscribe(`/sub/room/${id}/draw`, message => {
+      const m = message.body;
+
+      console.log(m)
+    });
+  }
+
+  function publish(le) {
+    console.log(StompClient.connected)
+    try {
+      StompClient.publish({
+        destination: `/pub/room/${id}/draw`, body: le
+      });
+    } catch (e) {
+      console.log(e)
+    }
+  }
   function replaceString(string) {
     let a = '';
     for (let i = 0; i < string.length; i++) {
@@ -43,7 +63,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
           canvasRef.current.height
         );
       };
-    }
+    } lee();
   }
   function redo() {
     if (pointer + 1 < canvaslist.length) {
@@ -60,8 +80,9 @@ export default function Canvas({ subject, room, whoDrawing }) {
           canvasRef.current.height
         );
       };
-    }
+    } lee();
   }
+
   window.addEventListener("keydown", (e) => {
     keystack.push(e.key);
     if (
@@ -96,6 +117,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
     canvaslist = [];
     //eslint-disable-next-line
     pointer = -1;
+
     if (whoDrawing === localStorage.getItem('nickname')) { //나 일 경우
       toolRef.current.style.display = 'flex'
     } else {
@@ -105,6 +127,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
 
   function lee() {
     const le = canvasRef.current.toDataURL("image/png");
+    publish(le);
     const byteString = atob(le.split(",")[1]);
     const mimeString = le.split(",")[0].split(":")[1].split(";")[0];
     const ab = new ArrayBuffer(byteString.length);
@@ -119,8 +142,8 @@ export default function Canvas({ subject, room, whoDrawing }) {
   }
 
   function mouseup(e) {
-    painting = false;
     pointer++;
+    painting = false;
     canvaslist.splice(pointer, canvaslist.length);
     canvaslist.push(lee());
   }
@@ -134,7 +157,7 @@ export default function Canvas({ subject, room, whoDrawing }) {
     } else {
       ctx.lineTo(x, y);
       ctx.stroke();
-    }
+    } lee();
   }
   return (
     <S.Canvas>
