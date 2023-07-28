@@ -84,20 +84,20 @@ export const TrashCan = (e) => (
     <path
       d="M19 11V47"
       stroke="white"
-      stroke-width="3"
-      stroke-linecap="round"
+      strokeWidth="3"
+      strokeLinecap="round"
     />
     <path
       d="M27 11V46"
       stroke="white"
-      stroke-width="3"
-      stroke-linecap="round"
+      strokeWidth="3"
+      strokeLinecap="round"
     />
     <path
       d="M36 12V47"
       stroke="white"
-      stroke-width="3"
-      stroke-linecap="round"
+      strokeWidth="3"
+      strokeLinecap="round"
     />
   </svg>
 );

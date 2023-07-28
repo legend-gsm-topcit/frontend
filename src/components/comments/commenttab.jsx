@@ -2,11 +2,11 @@ import Commentlist from "./commentslist";
 import Commentbox from "./commentbox";
 import * as S from "./style";
 
-export default function Commenttab() {
+export default function Commenttab({ StompClient, id }) {
   return (
     <S.comment>
       <Commentlist />
-      <Commentbox />
+      <Commentbox StompClient={StompClient} id={id} />
     </S.comment>
   );
 }

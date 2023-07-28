@@ -18,6 +18,7 @@ export default function Root() {
   const [whoDrawing, setWhoDrawing] = useState();
   const [subject, setSubject] = useState([]);
   const [isHost, setHost] = useState(false);
+  const [wordList, setWordList] = useState([]);
   const [nextone, setNextone] = useState();
 
   let StompClient = new StompJs.Client({
@@ -26,6 +27,7 @@ export default function Root() {
   useEffect(e => {
     setIsEntered(localStorage?.getItem('nickname'));
     setHost(localStorage?.getItem('host'));
+    console.log(id)
     return () => {
       StompClient.deactivate();
     };
@@ -49,10 +51,13 @@ export default function Root() {
       });
     });
     StompClient.subscribe(`/sub/room/${id}/keywordList`, message => {
-      console.log(message);
+      const m = JSON.parse(message.body);
+      console.log(m);
+      setWordList(m);
     });
     StompClient.subscribe(`/sub/room/${id}/chat`, message => {
-      console.log(message);
+      const m = (message.body);
+      console.log(m);
     });
     StompClient.subscribe(`/sub/room/${id}/round`, message => {
       console.log(message);
@@ -65,7 +70,7 @@ export default function Root() {
   return <div className="main-Screen">
     <Header whodrawing={whoDrawing} playing={playing} />
     <PlayerList list={memberList} />
-    {playing ? <Canvas whoDrawing={whoDrawing} StompClient={StompClient} setSubject={setSubject} subject={subject} id={id} /> : isEntered ? <Setroom setPlaying={setPlaying} StompClient={StompClient} isHost={isHost} id={id} setNextone={setNextone} /> : <Setnickname StompClient={StompClient} setIsEntered={setIsEntered} />}
-    <Commenttab />
+    {playing ? <Canvas whoDrawing={whoDrawing} StompClient={StompClient} setSubject={setSubject} wordList={wordList} subject={subject} id={id} /> : isEntered ? <Setroom setPlaying={setPlaying} StompClient={StompClient} isHost={isHost} id={id} setNextone={setNextone} /> : <Setnickname StompClient={StompClient} setIsEntered={setIsEntered} />}
+    <Commenttab StompClient={StompClient} id={id} />
   </div>
 }

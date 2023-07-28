@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function Commentbox() {
-  const [comments, setComments] = useState();
+export default function Commentbox({ StompClient, id }) {
+  const [comments, setComments] = useState('');
 
   const onChange = (e) => {
     setComments(e.target.value);
@@ -10,7 +10,7 @@ export default function Commentbox() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(comments);
+        StompClient.publish({ destination: `/pub/room/${id}/chat/${localStorage?.getItem('nickname')}`, body: comments });
         setComments("");
       }}
       className="commentbox">

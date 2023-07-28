@@ -3,13 +3,12 @@ import * as S from "./style";
 import * as SVG from "../../assets/svgs";
 import Words from "../words/words";
 
-export default function Canvas({ StompClient, setSubject, subject, whoDrawing, id }) {
+export default function Canvas({ StompClient, setSubject, wordList, subject, whoDrawing, id }) {
   let canvasRef = useRef(null);
   let rangeRef = useRef(null);
   let spanRef = useRef(null);
   let toolRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const thelist = ['몽키', '노트북', '물병', '이어폰'];
+  const [visible, setVisible] = useState(true);
   let canvaslist = [];
   let pointer = 0;
   let ctx;
@@ -17,7 +16,6 @@ export default function Canvas({ StompClient, setSubject, subject, whoDrawing, i
   let keystack = [];
 
   // StompClient.activate();
-
   StompClient.onConnect = e => {
     StompClient.subscribe(`/sub/room/${id}/draw`, message => {
       const m = message.body;
@@ -27,8 +25,8 @@ export default function Canvas({ StompClient, setSubject, subject, whoDrawing, i
   }
 
   function publish(le) {
-    console.log(StompClient.connected)
     try {
+      console.log(StompClient.connected)
       StompClient.publish({
         destination: `/pub/room/${id}/draw`, body: le
       });
@@ -161,7 +159,7 @@ export default function Canvas({ StompClient, setSubject, subject, whoDrawing, i
   }
   return (
     <S.Canvas>
-      <Words list={thelist} isvisible={visible} setVisible={setVisible} />
+      <Words list={wordList} id={id} StompClient={StompClient} whoDrawing={whoDrawing} isvisible={visible} setVisible={setVisible} />
       <div className='subject'>
         제시어: {whoDrawing === localStorage.getItem('nickname') ? subject : replaceString(subject)}
       </div>

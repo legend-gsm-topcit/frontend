@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import * as S from './style';
 
 export default function Setroom({ setPlaying, isHost, StompClient, id, setNextone }) {
+
   const [rounds, setRounds] = useState(3);
   const [difficulty, setDifficulty] = useState('EASY');
   const [numOfmember, setNumOfmember] = useState(3);
@@ -18,11 +19,17 @@ export default function Setroom({ setPlaying, isHost, StompClient, id, setNexton
       });
     }
     return () => {
-      // StompClient.deactivate();
       setinit(false);
     };
-  }, [rounds, difficulty, numOfmember]);
+  }, [rounds, difficulty, numOfmember, init]);
   StompClient.onConnect = e => {
+    StompClient.publish({
+      destination: `/pub/room/${id}/option/edit/${localStorage.getItem('nickname')}`, body: JSON.stringify({
+        "maxMemberCount": numOfmember,
+        "maxRoundCount": rounds,
+        "level": difficulty
+      })
+    });
     StompClient.subscribe(`/sub/room/${id}/option`, message => {
       const options = JSON.parse(message.body);
       console.log(options)
