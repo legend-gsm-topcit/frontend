@@ -1,26 +1,11 @@
 import Player from "./player";
 import * as S from "./style";
 
-export default function playerlist() {
+export default function playerlist({ list }) {
   return (
     <S.player>
       <div className="playerlist">
-        {
-          <>
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-            <Player nickname={'새마갤'} points={10} />
-          </>
-        }
+        {list?.map((i, n) => <Player nickname={i.name} points={i.score} />)}
       </div>
     </S.player>
   );

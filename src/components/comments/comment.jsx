@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 
-export default function Comment(props) {
+export default function Comment({ comment }) {
   useEffect(() => {
     // console.log(props);
   }, []);
 
-  const nickname = props.comment.nickname;
-  const content = props.comment.content;
   return (
     <>
       <div>
-        {nickname} : {content}
+        {comment}
       </div>
     </>
   );
