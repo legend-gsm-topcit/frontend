@@ -26,6 +26,7 @@ export default function App() {
     return () => {
       StompClient.deactivate();
     };
+    //eslint-disable-next-line
   }, [])
   return (
     <>

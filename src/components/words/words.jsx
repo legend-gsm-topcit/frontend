@@ -12,7 +12,7 @@ export default function Words({ isvisible, setVisible, list, whoDrawing, StompCl
       </div>) : `${whoDrawing}님이 단어를 선택중입니다.`}
     <button onClick={e => {
       StompClient.publish({ destination: `/pub/room/${id}/keyword`, body: word });
-      // setVisible(false);
+      setVisible(false);
     }}>결정</button>
   </S.words>}</>
 }

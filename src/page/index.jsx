@@ -19,8 +19,9 @@ export default function Root() {
   const [subject, setSubject] = useState([]);
   const [isHost, setHost] = useState(false);
   const [wordList, setWordList] = useState([]);
-  const [chatlist, setChatlist] = useState([]);
+  //eslint-disable-next-line
   const [nextone, setNextone] = useState();
+  const [chatlist, setChatlist] = useState([]);
 
   let StompClient = new StompJs.Client({
     brokerURL: `ws://${Url}`
@@ -32,6 +33,7 @@ export default function Root() {
     return () => {
       StompClient.deactivate();
     };
+    //eslint-disable-next-line
   }, [id]);
   StompClient.onConnect = e => {
     console.log(e, id);

@@ -21,6 +21,7 @@ export default function Setroom({ setPlaying, isHost, StompClient, id, setNexton
     return () => {
       setinit(false);
     };
+    //eslint-disable-next-line
   }, [rounds, difficulty, numOfmember, init]);
   StompClient.onConnect = e => {
     StompClient.publish({
